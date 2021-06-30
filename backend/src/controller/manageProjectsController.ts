@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import ManageProjectsService from "../service/manageProjectsService";
-import { parseISO } from 'date-fns';
+import moment from "moment";
 
 const manageProjectsService = new ManageProjectsService();
 
@@ -9,13 +9,10 @@ class ManageProjectsController {
         try {
             const { name, date, end_date, project_value, risk, participants } = request.body;
 
-            const parseDate =  parseISO(date);
-            const parseEndDate =  parseISO(date);
-
             const exportServiceResponse = await manageProjectsService.store({
                 name: name,
-                date: parseDate,
-                end_date: parseEndDate,
+                date: moment(date, "MM/DD/YYYY"),
+                end_date: moment(end_date, "MM/DD/YYYY"),
                 project_value:project_value,
                 risk: risk,
                 participants:participants,
@@ -24,7 +21,7 @@ class ManageProjectsController {
             return response.status(200).json(exportServiceResponse);
         } catch (error) {
 
-            return response.status(500).json({ message: 'Erro ao cadastrar projeto'});
+            return response.status(500).json({ Error: 'Registration failed'});
         }
     }
 }

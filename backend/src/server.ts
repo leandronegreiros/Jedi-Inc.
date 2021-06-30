@@ -1,13 +1,21 @@
+require('dotenv-flow').config();
 import express from 'express';
 import routes from './routes';
+import mongoose from "mongoose";
+
+const port = process.env.BACK_PORT;
 
 const app = express();
 
 app.use(express.json());
 app.use(routes);
 
-app.get('/', (request, response) => response.json({ message: 'Hello world' }));
+const url = `mongodb://${process.env.MONGO_DATABASE_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE_DBNAME}`;
 
-app.listen(3333, () => {
-  console.log('Server started on port 3333!');
+mongoose
+.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => {
+  app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+  })
 });

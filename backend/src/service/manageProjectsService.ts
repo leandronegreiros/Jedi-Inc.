@@ -1,4 +1,4 @@
-import {  v4 as uuid_v4 } from "uuid";
+import project from '../model/project';
 
 interface IProjects {
     name: String,
@@ -10,22 +10,14 @@ interface IProjects {
 }
 
 class ManageProjectsService {
-    public async store({
-        name,
-        date,
-        end_date,
-        project_value,
-        risk,
-        participants,
-    }: IProjects) {
+    public async store(parametros: any) {
 
-        const projects = [];
+        const create = await project.create(parametros);
 
-        const project = { id: uuid_v4(), name, date, end_date, project_value, risk, participants };
-
-        projects.push(project)
-
-        return project;
+        if (!create) {
+            throw new Error("Não foi possível criar projeto")
+        }
+        return {message: "Projeto criado com sucesso"};
     }
 }
 
