@@ -10,14 +10,49 @@ interface IProjects {
 }
 
 class ManageProjectsService {
-    public async store(parametros: any) {
+    public async index() {
 
-        const create = await project.create(parametros);
+        const projectList = await project.find();
+
+        if (!projectList) {
+            throw new Error("Unable to list projects")
+        }
+        return projectList;
+    }
+
+    public async store(parameters: any) {
+
+        const create = await project.create(parameters);
 
         if (!create) {
-            throw new Error("Não foi possível criar projeto")
+            throw new Error("Unable to create project")
         }
-        return {message: "Projeto criado com sucesso"};
+        return {message: "Project created successfully"};
+    }
+
+    public async update(parameters: any) {
+
+        const findProject = await project.find(parameters);
+        if (!findProject) {
+            throw new Error("Unable to update project")
+        }
+
+        const updateProject = await project.updateMany(parameters);
+
+        if (!updateProject) {
+            throw new Error("Unable to update project")
+        }
+        return {message: "Project update successfully"};
+    }
+
+    public async delete(parameters: any) {
+
+        const deleteProject = await project.remove(parameters);
+
+        if (!deleteProject) {
+            throw new Error("Unable to delete project")
+        }
+        return {message: "Project delete successfully"};
     }
 }
 
