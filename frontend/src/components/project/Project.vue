@@ -2,30 +2,75 @@
   <v-flex class="pr-3 pb-3" xs12 md6 lg6>
     <v-card class="green darken-3 white--text">
       <v-card-title class="headline">
-        <strong
-          >{{ project.name }}
-          <small>(Valor do Risco: {{ project.risk }})</small></strong
-        >
+        <strong>{{ project.name }} </strong>
       </v-card-title>
     </v-card>
+    <v-expansion-panel>
+
+      <v-expansion-panel-content>
+        <template v-slot:header>
+          <div>Valor do projeto</div>
+        </template>
+        <v-card>
+          <v-card-text>{{ project.project_value | currency }}</v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+
+      <v-expansion-panel-content>
+        <template v-slot:header>
+          <div>Risco</div>
+        </template>
+        <v-card>
+          <v-card-text>{{ project.risk }}</v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+
+      <v-expansion-panel-content>
+        <template v-slot:header>
+          <div>Integrantes</div>
+        </template>
+        <v-card>
+          <v-card-text>{{ project.participants }}</v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+
+      <v-expansion-panel-content>
+        <template v-slot:header>
+          <div>Data de Inicio do projeto</div>
+        </template>
+        <v-card>
+          <v-card-text>{{ project.date | formatDate}}</v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+
+      <v-expansion-panel-content>
+        <template v-slot:header>
+          <div>Data fim do projeto</div>
+        </template>
+        <v-card>
+          <v-card-text>{{ project.end_date | formatDate }}</v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
     <v-card>
       <v-container fill-height>
         <v-btn class="green darken-3 white--text" @click="projectUpdate"
           >Editar</v-btn
         >
-        <v-btn class="red darken-3 white--text" @click="projectDelete"
-          >Excluir</v-btn
-        >
         <v-btn class="blue darken-3 white--text" @click="projectInvestment"
           >Investimento</v-btn
         >
+        <Confirmation :project="project"/>
       </v-container>
     </v-card>
   </v-flex>
 </template>
 
 <script>
+import Confirmation from './confirmationDialog.vue'
 export default {
+  components : { Confirmation },
   props: ["project"],
   methods: {
     projectUpdate() {
@@ -34,7 +79,7 @@ export default {
         projectName: this.project.name,
         projectRisk: this.project.risk,
       };
-      console.log(orderUpdate);
+      this.$store.dispatch("InvestmentProject", order);
     },
     projectDelete() {
       const orderDelete = {
