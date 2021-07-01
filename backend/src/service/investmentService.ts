@@ -1,0 +1,41 @@
+import project from '../model/project';
+
+import AppError from '../errors/AppError';
+
+class InvestmentService {
+    public async simulate(parameters: any) {
+
+        const { _id, investmentValue } = parameters;
+        let investmentCalculation;
+
+        const findProject = await project.find({ _id });
+
+        if (!findProject) {
+            throw new AppError("Unable to update project")
+        }
+
+        const { project_value, risk } = findProject[0];
+
+        if (investmentValue < project_value) {
+            throw new AppError("Investment less than the project value!")
+        }
+
+        switch (risk) {
+            case 0:
+                investmentCalculation = 0.05 * investmentValue;
+                break;
+            case 1:
+                investmentCalculation = 0.10 * investmentValue;
+                break;
+            case 2:
+                investmentCalculation = 0.20 * investmentValue;
+                break;
+            default:
+                throw new AppError("risk not found!")
+        }
+
+        return investmentCalculation;
+    }
+}
+
+export default InvestmentService;

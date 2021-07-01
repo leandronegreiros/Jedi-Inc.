@@ -1,5 +1,7 @@
 import project from '../model/project';
 
+import AppError from '../errors/AppError';
+
 interface IProjects {
     name: String,
     date: Date,
@@ -15,7 +17,7 @@ class ManageProjectsService {
         const projectList = await project.find();
 
         if (!projectList) {
-            throw new Error("Unable to list projects")
+            throw new AppError("Unable to list projects")
         }
         return projectList;
     }
@@ -25,34 +27,44 @@ class ManageProjectsService {
         const create = await project.create(parameters);
 
         if (!create) {
-            throw new Error("Unable to create project")
+            throw new AppError("Unable to create project")
         }
-        return {message: "Project created successfully"};
+        return { message: "Project created successfully" };
     }
 
     public async update(parameters: any) {
 
-        const findProject = await project.find(parameters);
-        if (!findProject) {
-            throw new Error("Unable to update project")
-        }
+        const { _id, name, date, end_date, project_value, risk, participants } = parameters
+        const filter = { _id };
+        const updateDoc = {
+            $set: {
+                name,
+                date,
+                end_date,
+                project_value,
+                risk,
+                participants
+            }
+        };
+        const options = { upsert: true };
 
-        const updateProject = await project.updateMany(parameters);
+        const updateProject = await project.updateOne(filter, updateDoc, options);
 
         if (!updateProject) {
-            throw new Error("Unable to update project")
+            throw new AppError("Unable to update project")
         }
-        return {message: "Project update successfully"};
+        return { message: "Project update successfully" };
     }
 
     public async delete(parameters: any) {
 
-        const deleteProject = await project.remove(parameters);
+        const deleteProject = await project.deleteOne(parameters);
 
         if (!deleteProject) {
-            throw new Error("Unable to delete project")
+            throw new AppError("Unable to delete project")
         }
-        return {message: "Project delete successfully"};
+
+        return { message: "Project delete successfully" };
     }
 }
 

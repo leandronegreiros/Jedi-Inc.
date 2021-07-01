@@ -13,27 +13,28 @@ class ManageProjectsController {
             return response.status(200).json(exportServiceResponse);
         } catch (error) {
 
-            return response.status(500).json({ Error: 'listing failed'});
+            return response.status(500).json({ Error: error.message });
         }
     }
 
     public async store(request: Request, response: Response) {
         try {
             const { name, date, end_date, project_value, risk, participants } = request.body;
+console.log(moment(date, "DD/MM/YYYY"));
 
             const exportServiceResponse = await manageProjectsService.store({
-                name: name,
-                date: moment(date, "MM/DD/YYYY"),
-                end_date: moment(end_date, "MM/DD/YYYY"),
-                project_value:project_value,
-                risk: risk,
-                participants:participants,
+                name,
+                date: moment(date, "DD/MM/YYYY"),
+                end_date: moment(end_date, "DD/MM/YYYY"),
+                project_value,
+                risk,
+                participants,
             });
 
             return response.status(200).json(exportServiceResponse);
         } catch (error) {
 
-            return response.status(500).json({ Error: 'Registration failed'});
+            return response.status(500).json({Error: error.message });
         }
     }
 
@@ -45,7 +46,7 @@ class ManageProjectsController {
             return response.status(200).json(exportServiceResponse);
         } catch (error) {
 
-            return response.status(500).json({ Error: 'update failed'});
+            return response.status(500).json({ Error: error.message });
         }
     }
 
@@ -57,7 +58,7 @@ class ManageProjectsController {
             return response.status(200).json(exportServiceResponse);
         } catch (error) {
 
-            return response.status(500).json({ Error: 'delete failed'});
+            return response.status(500).json({ Error: error.message });
         }
     }
 }

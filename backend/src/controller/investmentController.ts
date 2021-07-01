@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
+import InvestmentService from "../service/investmentService";
+
+const investmentService = new InvestmentService();
 
 class InvestmentController {
     public async simulate(request: Request, response: Response) {
         try {
 
-            //  const exportServiceResponse = await manageProjectsService.index();
+            const exportServiceResponse = await investmentService.simulate(request.body);
 
-            //    return response.status(200).json(exportServiceResponse);
+            return response.status(200).json(exportServiceResponse);
+
         } catch (error) {
-
-            return response.status(500).json({ Error: 'listing failed' });
+            return response.status(400).json({ Error: error.message });
         }
     }
 }
