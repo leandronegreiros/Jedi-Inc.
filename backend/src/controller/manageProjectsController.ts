@@ -20,7 +20,6 @@ class ManageProjectsController {
     public async store(request: Request, response: Response) {
         try {
             const { name, date, end_date, project_value, risk, participants } = request.body;
-console.log(moment(date, "DD/MM/YYYY"));
 
             const exportServiceResponse = await manageProjectsService.store({
                 name,

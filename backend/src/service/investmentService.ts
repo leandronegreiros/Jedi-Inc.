@@ -34,7 +34,7 @@ class InvestmentService {
                 throw new AppError("risk not found!")
         }
 
-        return investmentCalculation;
+        return investmentCalculation.toFixed(2);
     }
 }
 
