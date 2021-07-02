@@ -37,6 +37,7 @@ export default {
     deleteProject() {
       this.dialog = false
       this.$store.dispatch('deleteProjects', this.project._id)
+      this.$store.dispatch('initProjects')
     },
   },
 };

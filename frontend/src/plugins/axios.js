@@ -9,8 +9,7 @@ export default {
     },
 
     delete(codes) {
-        console.log(codes);
-        return api.delete('manageProjects/delete', {
+        return api.post('manageProjects/delete', {
         _id: codes,
         });
     }
