@@ -8,9 +8,18 @@ export default {
         return api.get('manageProjects/list');
     },
 
-    delete(codes) {
+    delete(_id) {
         return api.post('manageProjects/delete', {
-        _id: codes,
+        _id,
+        });
+    },
+
+    simulateInvestment(_id, investmentValue) {
+        console.log(_id);
+        console.log(investmentValue);
+        return api.post('manageProjects/simulateInvestment', {
+             _id,
+            investmentValue
         });
     }
 }

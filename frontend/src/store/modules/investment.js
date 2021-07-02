@@ -1,16 +1,27 @@
+import api from '@/plugins/axios'
+
 export default {
     state: {
         validateInvestment: []
     },
     mutations: {
-        InvestmentProject(state, { projectID, investmentValue }){
-            /* const getValue = ...faz a requisicao
-            
-            state.validateInvestment.push({
-                getValue
-            });
+        async setsimulatInvestmente(state,  dados, ) {
 
-            */
+            const response = await api.simulateInvestment(dados._id, dados.investmentValue);
+            console.log(response);
+
+            state.validateInvestment = response.data
+        }
+
+    },
+    actions: {
+        simulatInvestmente({ commit }, dados) {
+           commit('setsimulatInvestmente', dados)
+        }
+    },
+    getters: {
+        valueInvestment(state) {
+            return state.validateInvestment;
         }
     }
 

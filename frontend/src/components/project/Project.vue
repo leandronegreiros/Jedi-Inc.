@@ -58,9 +58,8 @@
         <v-btn class="green darken-3 white--text" @click="projectUpdate"
           >Editar</v-btn
         >
-        <v-btn class="blue darken-3 white--text" @click="projectInvestment"
-          >Investimento</v-btn
-        >
+        <InvestmentMode :project="project" />
+
         <Confirmation :project="project"/>
       </v-container>
     </v-card>
@@ -68,9 +67,10 @@
 </template>
 
 <script>
-import Confirmation from './confirmationDialog.vue'
+import InvestmentMode from './InvestmentMode'
+import Confirmation from './ConfirmationDialog'
 export default {
-  components : { Confirmation },
+  components : { Confirmation, InvestmentMode },
   props: ["project"],
   methods: {
     projectUpdate() {

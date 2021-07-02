@@ -5,21 +5,17 @@ export default {
         projects: []
     },
     mutations: {
-        async setProjects(state, projects) {
+        async setProjects(state) {
             const response = await api.list();
             state.projects = response.data
         },
-        async setDeleteProjects(state, projects) {
-            const response = await api.delete(projects);
+        async setDeleteProjects(state, id) {
+            const response = await api.delete(id);
             state.projects = response.data
         }
     },
     actions: {
-        InvestmentProject({ commit }, order) {
-            commit()
-        },
         initProjects({ commit }) {
-            console.log('initProjects...');
             commit('setProjects', projects)
         },
         deleteProjects({ commit }, id) {
