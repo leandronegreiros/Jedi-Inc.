@@ -55,7 +55,7 @@
 
     <v-card>
       <v-container fill-height>
-        <v-btn class="green darken-3 white--text" @click="projectUpdate"
+        <v-btn   @click="projectUpdate" class="green darken-3 white--text"
           >Editar</v-btn
         >
         <InvestmentMode :project="project" />
@@ -67,19 +67,15 @@
 </template>
 
 <script>
-import InvestmentMode from './InvestmentMode'
-import Confirmation from './ConfirmationDialog'
+import InvestmentMode from "./InvestmentMode";
+import Confirmation from "./ConfirmationDialog";
 export default {
-  components : { Confirmation, InvestmentMode },
+  components: { Confirmation, InvestmentMode },
   props: ["project"],
   methods: {
     projectUpdate() {
-      const orderUpdate = {
-        projectId: this.project._id,
-        projectName: this.project.name,
-        projectRisk: this.project.risk,
-      };
-      this.$store.dispatch("InvestmentProject", order);
+      this.$store.dispatch("projectUpdate", this.project);
+      this.$router.push('update') 
     },
     projectDelete() {
       const orderDelete = {

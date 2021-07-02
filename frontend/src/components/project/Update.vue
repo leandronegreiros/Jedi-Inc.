@@ -27,7 +27,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="dateFormatted"
+                v-model="date"
                 label="Data início"
                 hint="DD/MM/YYYY formato"
                 persistent-hint
@@ -58,7 +58,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="computedDateFormatted"
+                v-model="date1"
                 label="Data de término"
                 hint="DD/MM/YYYY formato"
                 persistent-hint
@@ -110,15 +110,18 @@
       </v-layout>
     </v-container>
 
-    <v-btn @click="submit">Enviar</v-btn>
+    <v-btn @click="submit">Atualizar</v-btn>
     <v-btn @click="clear">Limpar</v-btn>
   </form>
 </template>
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email, numeric } from "vuelidate/lib/validators";
+import moment from "moment";
 
 export default {
+
+  props: ["project"],
   mixins: [validationMixin],
 
   validations: {
@@ -135,6 +138,7 @@ export default {
   },
 
   data: (vm) => ({
+    _id: "",
     name: "",
     valor: "",
     select: null,
@@ -142,14 +146,15 @@ export default {
     items: ["0 - baixo", "1 - médio", "2 - alto"],
     checkbox: false,
 
-    date: new Date().toISOString().substr(0, 10),
-    date1: new Date().toISOString().substr(0, 10),
+    date: "",
+    date1: "",
     dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
     menu1: false,
     menu2: false,
   }),
 
   computed: {
+   
     checkboxErrors() {
       const errors = [];
       if (!this.$v.checkbox.$dirty) return errors;
@@ -188,11 +193,15 @@ export default {
       if (!this.$v.participants.$dirty) return errors;
       !this.$v.participants.maxLength &&
         errors.push("Participantes deve ter no máximo 300 caracteres");
-      !this.$v.participants.required && errors.push("Participantes do Projeto é necessário.");
+      !this.$v.participants.required &&
+        errors.push("Participantes do Projeto é necessário.");
       return errors;
     },
     computedDateFormatted() {
       return this.formatDate(this.date1);
+    },
+    projectsUpdate() {
+      return this.$store.getters.projectsUpdate;
     },
   },
 
@@ -200,6 +209,7 @@ export default {
     submit() {
        this.select = this.select.split("-")
       const dados = {
+        _id: this._id,
         name: this.name,
         date: this.date,
         end_date: this.date1,
@@ -232,13 +242,26 @@ export default {
 
       const [month, day, year] = date.split("/");
       return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    },
+    }
   },
   watch: {
     date() {
       this.dateFormatted = this.formatDate(this.date);
     },
   },
+  beforeMount(){
+    console.log( this.projectsUpdate);
+    const product = this.projectsUpdate
+    const date = moment(product.date).format('DD/MM/YYYY')
+    const end_date = moment(product.end_date).format('DD/MM/YYYY')
+
+    this._id = this.projectsUpdate._id;
+    this.name = product.name;
+    this.valor = product.project_value;
+    this.participants = product.participants;
+    this.date = date;
+    this.date1 = end_date;
+ },
 };
 </script>
 

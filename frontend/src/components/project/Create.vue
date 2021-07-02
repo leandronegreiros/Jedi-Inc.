@@ -122,7 +122,7 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    name: { required, maxLength: maxLength(10) },
+    name: { required, maxLength: maxLength(30) },
     valor: { required, numeric, maxLength: maxLength(50) },
     participants: { required, maxLength: maxLength(300) },
     email: { required, email },
@@ -168,7 +168,7 @@ export default {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.maxLength &&
-        errors.push("O nome deve ter no máximo 10 caracteres");
+        errors.push("O nome deve ter no máximo 30 caracteres");
       !this.$v.name.required &&
         errors.push("O nome do projeto é obrigatório..");
       return errors;
