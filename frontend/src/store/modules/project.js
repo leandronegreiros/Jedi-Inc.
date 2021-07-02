@@ -1,8 +1,8 @@
-import projects from '@/data/projets'
 import api from '@/plugins/axios'
 export default {
     state: {
-        projects: []
+        projects: [],
+        projectsUpdate: []
     },
     mutations: {
         async setProjects(state) {
@@ -14,24 +14,33 @@ export default {
             state.projects = response.data
         },
         async setcreateProjects(state, dados) {
-            const response = await api.create(dados);
+            const response = await api.update(dados);
             state.projects = response.data
+        },
+        setProjectUpdate(state, dados) {
+            state.projectsUpdate = dados
         }
     },
     actions: {
         initProjects({ commit }) {
-            commit('setProjects', projects)
+            commit('setProjects', this.state)
         },
         createProjects({ commit }, dados) {
             commit('setcreateProjects', dados)
         },
         deleteProjects({ commit }, id) {
             commit('setDeleteProjects', id)
+        },
+        projectUpdate({ commit }, project) {
+            commit('setProjectUpdate', project)
         }
     },
     getters: {
         projects(state) {
             return state.projects;
+        },
+        projectsUpdate(state) {
+            return state.projectsUpdate;
         }
     }
 }

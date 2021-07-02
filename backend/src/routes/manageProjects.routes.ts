@@ -10,7 +10,7 @@ const investmentController = new InvestmentController();
 
 manageProjectsRoutes.get("/list", manageProjectsController.index);
 manageProjectsRoutes.post("/create", manageProjectsController.store);
-manageProjectsRoutes.put("/update", manageProjectsController.update);
+manageProjectsRoutes.post("/update", manageProjectsController.update);
 manageProjectsRoutes.post("/delete", manageProjectsController.delete);
 manageProjectsRoutes.post("/simulateInvestment", investmentController.simulate);
 

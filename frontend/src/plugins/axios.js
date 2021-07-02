@@ -25,6 +25,20 @@ export default {
         });
     },
 
+    update(dados) {
+        console.log(dados);
+
+        return api.post('manageProjects/update', {
+            _id: dados._is,
+            name: dados.name,
+            date: dados.date,
+            end_date: dados.end_date,
+            project_value: dados.project_value,
+            risk: dados.risk,
+            participants: dados.participants,
+        });
+    },
+
     simulateInvestment(_id, investmentValue) {
         return api.post('manageProjects/simulateInvestment', {
             _id,
