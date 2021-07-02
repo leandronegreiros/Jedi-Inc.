@@ -17,7 +17,7 @@ class InvestmentService {
         const { project_value, risk } = findProject[0];
 
         if (investmentValue < project_value) {
-            throw new AppError("Investment less than the project value!")
+            return "Investment less than the project value!";
         }
 
         switch (risk) {
@@ -31,10 +31,10 @@ class InvestmentService {
                 investmentCalculation = 0.20 * investmentValue;
                 break;
             default:
-                throw new AppError("risk not found!")
+                return"risk not found!";
         }
 
-        return investmentCalculation.toFixed(2);
+        return `Retorno do investimento: R$ ${investmentCalculation.toFixed(2)}` ;
     }
 }
 

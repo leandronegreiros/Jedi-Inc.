@@ -23,8 +23,8 @@ class ManageProjectsController {
 
             const exportServiceResponse = await manageProjectsService.store({
                 name,
-                date: moment(date, "DD/MM/YYYY"),
-                end_date: moment(end_date, "DD/MM/YYYY"),
+                date: moment(date, "DD-MM-YYYY"),
+                end_date: moment(end_date, "DD-MM-YYYY"),
                 project_value,
                 risk,
                 participants,

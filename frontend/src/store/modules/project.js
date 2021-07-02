@@ -12,11 +12,18 @@ export default {
         async setDeleteProjects(state, id) {
             const response = await api.delete(id);
             state.projects = response.data
+        },
+        async setcreateProjects(state, dados) {
+            const response = await api.create(dados);
+            state.projects = response.data
         }
     },
     actions: {
         initProjects({ commit }) {
             commit('setProjects', projects)
+        },
+        createProjects({ commit }, dados) {
+            commit('setcreateProjects', dados)
         },
         deleteProjects({ commit }, id) {
             commit('setDeleteProjects', id)

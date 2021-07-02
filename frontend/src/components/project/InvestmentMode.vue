@@ -10,7 +10,7 @@
           Simulação de Investimento
         </v-card-title>
 
-        <v-card-text > {{ valueInvestment }} </v-card-text>
+        <v-card-text v-if="textCliar"> {{ valueInvestment }} </v-card-text>
 
         <v-container fill-height>
           <v-text-field
@@ -46,6 +46,7 @@ export default {
       dialog: false,
       investmentValue: 0,
       validate: false,
+      textCliar: false,
     };
   },
   methods: {
@@ -56,14 +57,16 @@ export default {
       };
 
       this.$store.dispatch("simulatInvestmente", dados);
+
+      this.textCliar = true;
     },
     close() {
       this.dialog = false;
+       this.textCliar = false;
     },
   },
   computed: {
     valueInvestment() {
-      console.log(this.$store.getters.valueInvestment);
       return this.$store.getters.valueInvestment;
     },
   },

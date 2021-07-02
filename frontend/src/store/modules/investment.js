@@ -6,10 +6,7 @@ export default {
     },
     mutations: {
         async setsimulatInvestmente(state,  dados, ) {
-
             const response = await api.simulateInvestment(dados._id, dados.investmentValue);
-            console.log(response);
-
             state.validateInvestment = response.data
         }
 
